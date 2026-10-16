@@ -119,6 +119,11 @@ def new_game():
             )
     except ValueError as error:
         return jsonify({"error": str(error)}), 400
+    except RuntimeError:
+        app.logger.exception("Puzzle generation failed")
+        return jsonify(
+            {"error": "Unable to generate a puzzle. Please try again."}
+        ), 503
 
     previous_game_id = session.get("game_id")
     if isinstance(previous_game_id, str):

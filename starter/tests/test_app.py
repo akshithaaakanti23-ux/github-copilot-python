@@ -86,6 +86,27 @@ def test_new_route_returns_a_client_error_for_invalid_parameters(
     assert message in response.get_json()["error"]
 
 
+def test_new_route_logs_generation_failure_and_returns_generic_error(
+    client, monkeypatch, caplog
+):
+    def fail_to_generate_puzzle(**kwargs):
+        raise RuntimeError("internal generation details")
+
+    monkeypatch.setattr(
+        sudoku_logic, "generate_puzzle", fail_to_generate_puzzle
+    )
+
+    with caplog.at_level("ERROR", logger=sudoku_app.app.logger.name):
+        response = client.get("/new?clues=35")
+
+    assert response.status_code == 503
+    assert response.get_json() == {
+        "error": "Unable to generate a puzzle. Please try again."
+    }
+    assert "Puzzle generation failed" in caplog.text
+    assert "internal generation details" in caplog.text
+
+
 def test_check_route_returns_error_when_no_game_is_in_progress(client):
     response = client.post("/check", json={"board": sudoku_logic.create_empty_board()})
 
