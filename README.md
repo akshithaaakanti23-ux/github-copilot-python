@@ -42,6 +42,36 @@ python app.py
 
 7. Open http://127.0.0.1:5000 in your browser.
 
+### Running pytest
+
+From the `starter` directory, install the development requirements and run
+pytest:
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest
+```
+
+The `/new` route accepts `difficulty=easy`, `difficulty=medium`, or
+`difficulty=hard`. Generated puzzles retain a unique solution and use these
+inclusive clue-count bands: Easy 40-45, Medium 33-39, and Hard 28-32. For
+backward compatibility, `/new` without a difficulty still defaults to 35
+clues, and `/new?clues=35` continues to request an exact clue count.
+
+## Gameplay
+
+Choose Easy, Medium, or Hard before starting a new game. Repeated values in a
+row, column, or 3x3 box are highlighted as soon as they are entered. **Check
+Solution** marks incorrect filled cells without returning the solution to the
+browser; a congratulatory message appears only after the board is complete and
+correct. The MM:SS timer starts with each new puzzle and stops only after the
+server confirms a correct solution. After solving, enter a name to save the
+completion time, difficulty, and hint count in the browser's localStorage.
+The leaderboard keeps and displays the 10 fastest valid completed games;
+incomplete and incorrectly solved puzzles are not recorded. **Hint** fills and
+locks one empty cell at a time. The page displays the number of hints used in
+the current game.
+
 ## Project Instructions
 
 Use GitHub Copilot to refactor the code for this game to add more advanced features. The goal is to create a more modern and maintainable codebase and add additional functionality to the final product. You can use any combination of code completion and chat features, like Ask, Edit, or Agent modes.

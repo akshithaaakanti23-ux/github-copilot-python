@@ -1,18 +1,64 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Sudoku Game</h1>
-  <div id="sudoku-board"></div>
-  <div class="controls">
-    <button id="new-game">New Game</button>
-    <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
-  </div>
+  <main class="page">
+    <header class="page-header">
+      <h1>Sudoku Game</h1>
+      <button
+        id="theme-toggle"
+        class="theme-toggle"
+        type="button"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >Dark mode</button>
+    </header>
+    <div class="game-options">
+      <label for="difficulty">Difficulty</label>
+      <select id="difficulty" name="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <p class="timer-label">Time: <span id="timer" role="timer" aria-live="off">00:00</span></p>
+    </div>
+    <div id="sudoku-board" role="grid" aria-label="Sudoku puzzle"></div>
+    <div class="controls">
+      <button id="new-game">New Game</button>
+      <button id="check-solution">Check Solution</button>
+      <button id="get-hint">Hint</button>
+      <p id="hint-count" aria-live="polite">Hints used: 0</p>
+      <p id="message" role="status" aria-live="polite"></p>
+      <form id="score-entry-form" hidden>
+        <label for="player-name">Your name for the leaderboard</label>
+        <input id="player-name" name="player-name" type="text" maxlength="30" required autocomplete="name">
+        <button type="submit">Save Score</button>
+      </form>
+    </div>
+    <section class="leaderboard" aria-labelledby="leaderboard-title">
+      <h2 id="leaderboard-title">Top 10 Fastest Games</h2>
+      <p id="leaderboard-message" role="status" aria-live="polite"></p>
+      <div class="leaderboard-table-wrapper">
+        <table aria-label="Top 10 fastest Sudoku games">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Player Name</th>
+              <th scope="col">Time</th>
+              <th scope="col">Difficulty</th>
+              <th scope="col">Hints Used</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-entries"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
   <script src="/static/main.js"></script>
 </body>
 </html>
